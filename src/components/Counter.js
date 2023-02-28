@@ -1,34 +1,16 @@
 import { useState, useEffect } from "react";
 import Button from "./Button";
 export default function Counter() {
-  const [learningCounterMin, setLearningCounterMin] = useState(0);
-  const [learningCounterSec, setLearningCounterSec] = useState(10);
+  const [learningCounterMin, setLearningCounterMin] = useState(29);
+  const [learningCounterSec, setLearningCounterSec] = useState(59);
   const [isCounterRunning, setIsCounterRunning] = useState(false);
+
+  const [learningCounter, setLearningCounter] = useState(true);
+
   const [brakeCounterRunning, setBrakeCounterRunning] = useState(false);
   const [brakeCounterSec, setBrakeCounterSec] = useState(59);
   const [brakeCounterMin, setBrakeCounterMin] = useState(4);
-  useEffect(() => {
-    let intervalId;
 
-    if (brakeCounterRunning) {
-      intervalId = setInterval(() => {
-        if (brakeCounterSec === 0) {
-          setBrakeCounterMin((prevMin) => prevMin - 1);
-          setBrakeCounterSec(59);
-        } else {
-          setLearningCounterSec((prevSec) => prevSec - 1);
-        }
-      }, 1000);
-    }
-    return () => clearInterval(intervalId);
-  }, [brakeCounterRunning, brakeCounterSec]);
-  useEffect(() => {
-    if (brakeCounterMin === 0 && brakeCounterSec === 0) {
-      setBrakeCounterRunning(false);
-      setBrakeCounterMin(4);
-      setBrakeCounterSec(59);
-    }
-  }, [brakeCounterRunning, brakeCounterSec]);
   useEffect(() => {
     let intervalId;
 
@@ -45,44 +27,103 @@ export default function Counter() {
 
     return () => clearInterval(intervalId);
   }, [isCounterRunning, learningCounterSec]);
+
+  useEffect(() => {
+    let intervalId;
+
+    if (brakeCounterRunning) {
+      intervalId = setInterval(() => {
+        if (brakeCounterSec === 0) {
+          setBrakeCounterMin((prevMin) => prevMin - 1);
+          setBrakeCounterSec(59);
+        } else {
+          setBrakeCounterSec((prevSec) => prevSec - 1);
+        }
+      }, 1000);
+    }
+    return () => clearInterval(intervalId);
+  }, [brakeCounterRunning, brakeCounterSec]);
+
   useEffect(() => {
     if (learningCounterMin === 0 && learningCounterSec === 0) {
       setIsCounterRunning(false);
       setLearningCounterMin(29);
       setLearningCounterSec(59);
-      setBrakeCounterRunning(true);
+      setLearningCounter(false);
     }
-  }, [isCounterRunning, learningCounterSec]);
-  function handleStartButtonClick() {
+    if (brakeCounterMin === 0 && brakeCounterSec === 0) {
+      setBrakeCounterRunning(false);
+      setBrakeCounterMin(4);
+      setBrakeCounterSec(59);
+      setLearningCounter(true);
+    }
+  }, [isCounterRunning, learningCounterSec, brakeCounterSec]);
+
+  function handleStartLearningButtonClick() {
     setIsCounterRunning(true);
   }
-
-  function handleStopButtonClick() {
+  function handleStartBrakeButtonClick() {
+    setBrakeCounterRunning(true);
+    console.log(brakeCounterRunning);
+  }
+  function handleStopLearningButtonClick() {
     setIsCounterRunning(false);
   }
-  function handleRestartButtonClick() {
+  function handleStopBrakeButtonClick() {
+    setBrakeCounterRunning(false);
+  }
+  function handleRestartLearningButtonClick() {
     setIsCounterRunning(false);
     setLearningCounterMin(29);
     setLearningCounterSec(59);
+  }
+  function handleReastartBrakeButtonClick() {
+    setBrakeCounterRunning(false);
+    console.log(brakeCounterRunning);
+    setBrakeCounterMin(4);
+    setBrakeCounterSec(59);
   }
 
   return (
     <div>
       <div>
-        {brakeCounterRunning ? (
+        {learningCounter ? (
           <div>
-            {brakeCounterMin.toString()}:{brakeCounterSec.toString()}
+            {learningCounterMin.toString()}:{learningCounterSec.toString()}
+            <div>
+              <Button
+                onClick={handleStartLearningButtonClick}
+                name={"Start"}
+              ></Button>
+              <Button
+                name={"Stop"}
+                onClick={handleStopLearningButtonClick}
+              ></Button>
+              <Button
+                onClick={handleRestartLearningButtonClick}
+                name={"Restart"}
+              ></Button>
+            </div>
           </div>
         ) : (
           <div>
-            {learningCounterMin.toString()}:{learningCounterSec.toString()}
+            {brakeCounterMin.toString()}:{brakeCounterSec.toString()}
+            <div>
+              <Button
+                onClick={handleStartBrakeButtonClick}
+                name={"Start"}
+              ></Button>
+              <Button
+                name={"Stop"}
+                onClick={handleStopBrakeButtonClick}
+              ></Button>
+              <Button
+                onClick={handleReastartBrakeButtonClick}
+                name={"Restart"}
+              ></Button>
+            </div>
           </div>
         )}
-      </div>
-      <div>
-        <Button name={"Start"} onClick={handleStartButtonClick}></Button>
-        <Button name={"Stop"} onClick={handleStopButtonClick}></Button>
-        <Button name={"Restart"} onClick={handleRestartButtonClick}></Button>
       </div>
     </div>
   );
