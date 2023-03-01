@@ -1,0 +1,25 @@
+.loader {
+  position: relative;
+  display: inline-block;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 16px solid #f3f3f3;
+}
+.loader-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 16px solid transparent;
+  border-top-color: green;
+  transform: rotate(-90deg);
+  animation: fill 1800s linear forwards;
+}
+@keyframes fill {
+  100% {
+    border-top-color: transparent;
+  }
+}

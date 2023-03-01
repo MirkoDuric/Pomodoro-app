@@ -85,46 +85,45 @@ export default function Counter() {
   }
 
   return (
-    <div>
-      <div>
-        {learningCounter ? (
-          <div>
+    <div className="counter-container">
+      {learningCounter ? (
+        <div>
+          <div className="counter">
             {learningCounterMin.toString()}:{learningCounterSec.toString()}
-            <div>
-              <Button
-                onClick={handleStartLearningButtonClick}
-                name={"Start"}
-              ></Button>
-              <Button
-                name={"Stop"}
-                onClick={handleStopLearningButtonClick}
-              ></Button>
-              <Button
-                onClick={handleRestartLearningButtonClick}
-                name={"Restart"}
-              ></Button>
-            </div>
           </div>
-        ) : (
-          <div>
+          <div className="button-container">
+            <Button
+              onClick={handleStartLearningButtonClick}
+              name={"Start"}
+            ></Button>
+            <Button
+              name={"Stop"}
+              onClick={handleStopLearningButtonClick}
+            ></Button>
+            <Button
+              onClick={handleRestartLearningButtonClick}
+              name={"Restart"}
+            ></Button>
+          </div>
+        </div>
+      ) : (
+        <div>
+          <div className="counter">
             {brakeCounterMin.toString()}:{brakeCounterSec.toString()}
-            <div>
-              <Button
-                onClick={handleStartBrakeButtonClick}
-                name={"Start"}
-              ></Button>
-              <Button
-                name={"Stop"}
-                onClick={handleStopBrakeButtonClick}
-              ></Button>
-              <Button
-                onClick={handleReastartBrakeButtonClick}
-                name={"Restart"}
-              ></Button>
-            </div>
           </div>
-        )}
-      </div>
+          <div className="button-container">
+            <Button
+              onClick={handleStartBrakeButtonClick}
+              name={"Start"}
+            ></Button>
+            <Button name={"Stop"} onClick={handleStopBrakeButtonClick}></Button>
+            <Button
+              onClick={handleReastartBrakeButtonClick}
+              name={"Restart"}
+            ></Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
